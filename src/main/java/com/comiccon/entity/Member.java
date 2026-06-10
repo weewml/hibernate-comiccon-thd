@@ -2,9 +2,7 @@ package com.comiccon.entity;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "member")
@@ -29,9 +27,6 @@ public class Member {
     @Column(name = "original_source", nullable = false, length = 200)
     private String originalSource;
 
-    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
-    private Set<Performance> performances = new HashSet<>();
-
     protected Member() {}
 
     public Member(String lastName, String firstName, String patronymic, String hero, String originalSource) {
@@ -41,9 +36,6 @@ public class Member {
         this.hero = hero;
         this.originalSource = originalSource;
     }
-
-    public void addPerformance(Performance performance) { performances.add(performance); }
-    public void removePerformance(Performance performance) { performances.remove(performance); }
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -57,9 +49,6 @@ public class Member {
     public void setHero(String hero) { this.hero = hero; }
     public String getOriginalSource() { return originalSource; }
     public void setOriginalSource(String originalSource) { this.originalSource = originalSource; }
-
-    public Set<Performance> getPerformances() { return performances; }
-    public void setPerformances(Set<Performance> performances) { this.performances = performances; }
 
     @Override
     public boolean equals(Object o) {

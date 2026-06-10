@@ -2,7 +2,9 @@ package com.comiccon.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "company")
@@ -12,9 +14,13 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artist_id", nullable = false)
-    private Artist artist;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "company_artist",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id")
+    )
+    private Set<Artist> artists = new HashSet<>();
 
     @Column(name = "company_name", nullable = false, length = 300)
     private String companyName;
@@ -27,17 +33,19 @@ public class Company {
 
     protected Company() {}
 
-    public Company(Artist artist, String companyName, Short area, Short numberTable) {
-        this.artist = artist;
+    public Company(String companyName, Short area, Short numberTable) {
         this.companyName = companyName;
         this.area = area;
         this.numberTable = numberTable;
     }
 
+    public void addArtist(Artist artist) { artists.add(artist); }
+    public void removeArtist(Artist artist) { artists.remove(artist); }
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
-    public Artist getArtist() { return artist; }
-    public void setArtist(Artist artist) { this.artist = artist; }
+    public Set<Artist> getArtists() { return artists; }
+    public void setArtists(Set<Artist> artists) { this.artists = artists; }
     public String getCompanyName() { return companyName; }
     public void setCompanyName(String companyName) { this.companyName = companyName; }
     public Short getArea() { return area; }
