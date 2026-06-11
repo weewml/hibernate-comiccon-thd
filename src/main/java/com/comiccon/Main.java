@@ -15,8 +15,7 @@ public class Main {
 
             System.out.println("========== CRUD-операции через Hibernate ==========");
             CrudService crudService = new CrudService();
-            //todo crudService
-            //crudService.runAll();
+            crudService.runAll();
 
             System.out.println("========== Примеры бизнес-запросов (JPQL) ==========");
             BusinessQueryService queryService = new BusinessQueryService();
